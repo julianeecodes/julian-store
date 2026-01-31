@@ -172,6 +172,10 @@ export default function JulianStore() {
     else if (selectedProduct.category === 'joki' && selectedProduct.name.includes('MLBB')) {
       message = `*ORDER JOKI GAME*\n---------------------------\n🎮 Layanan: ${selectedProduct.name}\n👤 Nama: ${formData.name}\n📧 Login (Email/Moonton): ${formData.account}\n🔑 Password: ${formData.password}\n📝 Request Hero/Catatan: ${formData.detail}\n---------------------------`;
     }
+    // --- KHUSUS BOT WA ---
+    else if (selectedProduct.category === 'bot') {
+       message = `*ORDER SEWA BOT WA*\n---------------------------\n🤖 Paket: ${selectedProduct.name}\n👤 Nama Pemesan: ${formData.name}\n🔗 Link Grup Target: ${formData.target}\n---------------------------\n*bot akan masuk ke grup, setelah melakukan payment*`;
+    }
     else {
       message = `*ORDER LAYANAN BARU*\n---------------------------\n📦 Produk: ${selectedProduct.name}\n💵 Harga: ${selectedProduct.price}\n👤 Nama Pemesan: ${formData.name}\n📝 Catatan/Info: ${formData.detail || '-'}\n---------------------------`;
     }
@@ -374,10 +378,31 @@ export default function JulianStore() {
                 </div>
               )}
 
+              {/* --- FIELD KHUSUS BOT WA (BARU) --- */}
+              {selectedProduct.category === 'bot' && (
+                <div>
+                   <label className="flex items-center gap-2 text-xs font-bold text-gray-500 mb-2">
+                        <LinkIcon size={14} /> LINK GRUP WHATSAPP
+                   </label>
+                   <div className="bg-yellow-500/10 border border-yellow-500/20 p-3 rounded-lg mb-2">
+                      <p className="text-xs text-yellow-200">
+                        *Pastikan link grup benar. Bot akan otomatis keluar jika masa sewa 30 hari habis.
+                      </p>
+                   </div>
+                   <input 
+                    type="text" required
+                    className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-purple-500 outline-none"
+                    placeholder="https://chat.whatsapp.com/xxxxxx"
+                    value={formData.target}
+                    onChange={(e) => setFormData({...formData, target: e.target.value})}
+                  />
+                </div>
+              )}
+
               {/* FIELD KHUSUS JOKI GAME MLBB */}
               {selectedProduct.category === 'joki' && selectedProduct.name.includes('MLBB') && (
                 <>
-                   <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-3">
                         <div>
                             <label className="block text-xs font-bold text-gray-500 mb-2">EMAIL/MOONTON</label>
                             <input 
@@ -398,23 +423,23 @@ export default function JulianStore() {
                                 onChange={(e) => setFormData({...formData, password: e.target.value})}
                             />
                         </div>
-                   </div>
-                   <p className="text-xs text-red-400 italic">*Data akun aman 100% terjaga privasinya.</p>
+                    </div>
+                    <p className="text-xs text-red-400 italic">*Data akun aman 100% terjaga privasinya.</p>
                 </>
               )}
 
               {/* FIELD KHUSUS WEBSITE */}
               {selectedProduct.category === 'website' && (
-                 <div>
-                    <label className="block text-xs font-bold text-gray-500 mb-2">PERKIRAAN BUDGET</label>
-                    <input 
+                  <div>
+                     <label className="block text-xs font-bold text-gray-500 mb-2">PERKIRAAN BUDGET</label>
+                     <input 
                         type="text" 
                         className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-purple-500 outline-none"
                         placeholder="Contoh: 150rb - 300rb"
                         value={formData.budget}
                         onChange={(e) => setFormData({...formData, budget: e.target.value})}
-                    />
-                 </div>
+                     />
+                  </div>
               )}
 
               {/* FIELD CATATAN / DETAIL */}
